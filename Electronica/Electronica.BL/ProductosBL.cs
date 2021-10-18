@@ -27,7 +27,7 @@ namespace Electronica.BL
 
         public void GuardarProducto(Producto producto)
         {
-            if(producto.Id == 0)
+            if (producto.Id == 0)
             {
                 _contexto.Productos.Add(producto);
             }
@@ -36,6 +36,7 @@ namespace Electronica.BL
                 var productoExistente = _contexto.Productos.Find(producto.Id);
                 productoExistente.Descripcion = producto.Descripcion;
                 productoExistente.Precio = producto.Precio;
+                productoExistente.UrlImagen = producto.UrlImagen;
             }
 
             _contexto.SaveChanges();
