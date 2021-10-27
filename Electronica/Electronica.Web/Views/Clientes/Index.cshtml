@@ -1,0 +1,11 @@
+﻿@model List<Electronica.Web.Models.ClienteModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Clientes</h2>
+
+@foreach (var cliente in Model)
+{
+    <p>@cliente.Id @cliente.Descripcion</p>
+}
