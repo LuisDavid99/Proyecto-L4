@@ -1,4 +1,4 @@
-﻿using Electronica.WebAdmin.Models;
+﻿using Electronica.BL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,28 +9,121 @@ namespace Electronica.WebAdmin.Controllers
 {
     public class ProductosController : Controller
     {
+        ProductosBL _productosBL;
+        CategoriasBL _categoriasBL;
+
+        public ProductosController()
+        {
+            _productosBL = new ProductosBL();
+            _categoriasBL = new CategoriasBL();
+        }
+
         // GET: Productos
         public ActionResult Index()
         {
-            var cliente1 = new ClienteModel();
-            cliente1.Id = 1;
-            cliente1.Descripcion = "Luis";
+            var listadeProductos = _productosBL.ObtenerProductos(); 
 
-            var cliente2 = new ClienteModel();
-            cliente2.Id = 2;
-            cliente2.Descripcion = "Jose";
+            return View(listadeProductos);
+        }
 
-            var cliente3 = new ClienteModel();
-            cliente3.Id = 3;
-            cliente3.Descripcion = "Juan";
+        public ActionResult Crear()
+        {
+            var nuevoProducto = new Producto();
+            var categorias = _categoriasBL.ObtenerCategorias();
 
+            ViewBag.CategoriaId = new SelectList(categorias, "Id", "Descripcion");
 
-            var listadeClientes = new List<ClienteModel>();
-            listadeClientes.Add(cliente1);
-            listadeClientes.Add(cliente2);
-            listadeClientes.Add(cliente3);
+            return View(nuevoProducto);
+        }
 
-            return View(listadeClientes);
+        [HttpPost]
+        public ActionResult Crear(Producto producto, HttpPostedFileBase imagen)
+        {
+            if (ModelState.IsValid)
+            {
+                if(producto.CategoriaId == 0)
+                {
+                    ModelState.AddModelError("CategoriaId", "Selecione una categoria");
+                    return View(producto);
+                }
+
+                if(imagen != null)
+                {
+                    producto.UrlImagen = GuardarImagen(imagen);
+                }
+
+                _productosBL.GuardarProducto(producto);
+                return RedirectToAction("Index");
+            }
+            var categorias = _categoriasBL.ObtenerCategorias();
+
+            ViewBag.CategoriaId = new SelectList(categorias, "Id", "Descripcion");
+            return View(producto);
+        }
+
+        public ActionResult Editar(int id)
+        {
+            var producto = _productosBL.ObtenerProducto(id);
+            var categorias = _categoriasBL.ObtenerCategorias();
+
+            ViewBag.CategoriaId =
+                new SelectList(categorias, "Id", "Descripcion", producto.CategoriaId);
+
+            return View(producto);
+        }
+
+        [HttpPost]
+        public ActionResult Editar(Producto producto, HttpPostedFileBase imagen)
+        {
+            if (ModelState.IsValid)
+            {
+                if (producto.CategoriaId == 0)
+                {
+                    ModelState.AddModelError("CategoriaId", "Selecione una categoria");
+                    return View(producto);
+                }
+                if (imagen != null)
+                {
+                    producto.UrlImagen = GuardarImagen(imagen);
+                }
+                _productosBL.GuardarProducto(producto);
+                return RedirectToAction("Index");
+            }
+            var categorias = _categoriasBL.ObtenerCategorias();
+
+            ViewBag.CategoriaId = new SelectList(categorias, "Id", "Descripcion");
+            return View(producto);
+        }
+
+        public ActionResult Detalle(int id)
+        {
+            var producto = _productosBL.ObtenerProducto(id);
+
+            return View(producto);
+        }
+
+        public ActionResult Eliminar(int id)
+        {
+            var producto = _productosBL.ObtenerProducto(id);
+
+            return View(producto);
+        }
+
+        [HttpPost]
+        public ActionResult ELiminar(Producto producto)
+        {
+            _productosBL.EliminarProducto(producto.Id);
+
+            return RedirectToAction("Index");
+        }
+
+        private string GuardarImagen(HttpPostedFileBase imagen)
+        {
+            string path = Server.MapPath("~/Imagenes/" + imagen.FileName);
+            imagen.SaveAs(path);
+
+            return "/imagenes/" + imagen.FileName;
         }
     }
+           
 }
