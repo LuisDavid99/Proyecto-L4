@@ -22,6 +22,7 @@ namespace Electronica.WebAdmin.Controllers
         public ActionResult Index(int id)
         {
             var orden = _ordenBL.ObtenerOrden(id);
+            orden.ListaOrdenDetalle = _ordenBL.ObtenerOrdenDetalle(id);
 
             return View(orden);
         }
@@ -50,13 +51,28 @@ namespace Electronica.WebAdmin.Controllers
                 }
 
                 _ordenBL.GuardarOrdenDetalle(ordenDetalle);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = ordenDetalle.OrdenId });
             }
 
             var productos = _productosBL.ObtenerProductos();
             ViewBag.ProductoId = new SelectList(productos, "Id", "Descripcion");
 
             return View(ordenDetalle);
+        }
+
+        public ActionResult Eliminar (int id)
+        {
+            var ordenDetalle = _ordenBL.ObtenerOrdenDetallePorId(id);
+
+            return View(ordenDetalle);
+        }
+
+        [HttpPost]
+        public ActionResult Eliminar(OrdenDetalle ordenDetalle)
+        {
+            _ordenBL.EliminarOrdenDetalle(ordenDetalle.Id);
+
+            return RedirectToAction("Index", new { id = ordenDetalle.OrdenId });
         }
     }
 }
