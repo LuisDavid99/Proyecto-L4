@@ -32,7 +32,7 @@ namespace Electronica.WebAdmin.Controllers
             var nuevaOrdenDetalle = new OrdenDetalle();
             nuevaOrdenDetalle.OrdenId = id;
 
-            var productos = _productosBL.ObtenerProductos();
+            var productos = _productosBL.ObtenerProductosActivos();
 
             ViewBag.ProductoId = new SelectList(productos, "Id", "Descripcion");
 
@@ -54,7 +54,7 @@ namespace Electronica.WebAdmin.Controllers
                 return RedirectToAction("Index", new { id = ordenDetalle.OrdenId });
             }
 
-            var productos = _productosBL.ObtenerProductos();
+            var productos = _productosBL.ObtenerProductosActivos();
             ViewBag.ProductoId = new SelectList(productos, "Id", "Descripcion");
 
             return View(ordenDetalle);
