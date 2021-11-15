@@ -23,7 +23,7 @@ namespace Electronica.BL
         public string Descripcion { get; set; }
 
         [Required (ErrorMessage = "Ingrese el precio")]
-        [Range (0,1000, ErrorMessage = "Ingrese un precio entre 0 a 1000")]
+        [Range (0,30000, ErrorMessage = "Ingrese un precio entre 0 a 30,000")]
         public double Precio { get; set; }
         public int CategoriaId { get; set; }
         public Categoria Categoria { get; set; }

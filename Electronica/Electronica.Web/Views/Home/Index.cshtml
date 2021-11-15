@@ -1,7 +1,161 @@
-﻿
+﻿@model List<Electronica.BL.Producto>
+
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Inicio";
 }
 
-<h2>Home</h2>
+<section class="maincontent-area">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="latest-product">
+                    <h2 class="section-title">Ultimos Productos</h2>
+                    <div class="product-carousel">
 
+                        @foreach (var producto in Model
+                .Where(r => r.Categoria.Descripcion == "Productos Electrónicos")
+                .Take(6)
+                .OrderBy(r => Guid.NewGuid())
+                )
+                        {
+
+                        <div class="single-product">
+                            <div class="product-f-image">
+                                <img src="@(ViewBag.adminWebsiteUrl + producto.UrlImagen)" alt="">
+                                <div class="product-hover">
+                                    <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i>Añadir</a>
+                                    <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i>Detalles</a>
+                                </div>
+                            </div>
+
+
+                            <h2><a href="single-product.html">@producto.Descripcion</a></h2>
+
+                            <div class="product-carousel-price">
+                                <ins>L @producto.Precio</ins>
+                            </div>
+                        </div>
+
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- End main content area -->
+
+
+
+<section class="brands-area">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="brand-wrapper">
+                    <div class="brand-list">
+                        <img src="~/img/brand1.png" alt="">
+                        <img src="~/img/brand2.png" alt="">
+                        <img src="~/img/brand3.png" alt="">
+                        <img src="~/img/brand4.png" alt="">
+                        <img src="~/img/brand5.png" alt="">
+                        <img src="~/img/brand6.png" alt="">
+                        <img src="~/img/brand1.png" alt="">
+                        <img src="~/img/brand2.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+        ><!-- End brands area -->
+
+
+<div class="product-widget-area">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="single-product-widget">
+                    <h2 class="product-wid-title">Top Ventas</h2>
+                    <a href="" class="wid-view-more">Ver Todo</a>
+                    @foreach (var producto in Model.Take(3)
+                        .OrderBy(r => Guid.NewGuid()))
+                    {
+                        <div class="single-wid-product">
+                            <a href="single-product.html"><img src="@(ViewBag.adminWebsiteUrl + producto.UrlImagen)" alt="" class="product-thumb"></a>
+                            <h2><a href="single-product.html">@producto.Descripcion</a></h2>
+                            <div class="product-wid-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <div class="product-wid-price">
+                                <ins>L @producto.Precio</ins>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="single-product-widget">
+                    <h2 class="product-wid-title">Recien Añadidos </h2>
+                    <a href="#" class="wid-view-more">Ver Todos</a>
+                    @foreach (var producto in Model.Take(3)
+                        .OrderBy(r => Guid.NewGuid()))
+                    {
+                        <div class="single-wid-product">
+                            <a href="single-product.html"><img src="@(ViewBag.adminWebsiteUrl + producto.UrlImagen)" alt="" class="product-thumb"></a>
+                            <h2><a href="single-product.html">@producto.Descripcion</a></h2>
+                            <div class="product-wid-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <div class="product-wid-price">
+                                <ins>L @producto.Precio</ins>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+                <div class="col-md-4">
+                    <div class="single-product-widget">
+                        <h2 class="product-wid-title">Top Nuevos </h2>
+                        <a href="#" class="wid-view-more">Ver Todos</a>
+                        @foreach (var producto in Model.Take(3)
+                            .OrderBy(r => Guid.NewGuid()))
+                        {
+                            <div class="single-wid-product">
+                                <a href="single-product.html"><img src="@(ViewBag.adminWebsiteUrl + producto.UrlImagen)" alt="" class="product-thumb"></a>
+                                <h2><a href="single-product.html">@producto.Descripcion</a></h2>
+                                <div class="product-wid-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <div class="product-wid-price">
+                                    <ins>L @producto.Precio</ins>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+             </div>
+           </div>
+         </div>              <!-- End product widget area -->
