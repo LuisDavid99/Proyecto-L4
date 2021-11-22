@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace Electronica.WebAdmin.Controllers
 {
-
+    [Authorize]
     public class ClientesController : Controller
     {
         ClientesBL _clientesBL;

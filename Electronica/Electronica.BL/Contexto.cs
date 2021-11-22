@@ -19,6 +19,7 @@ namespace Electronica.BL
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>(); //evitar que se pluralicen las tablas
+            Database.SetInitializer(new DatosdeInicio()); // Agregar datos de inicio al momento de crear la base de datos
         }
 
         public DbSet<Producto> Productos { get; set; }
@@ -27,5 +28,6 @@ namespace Electronica.BL
 
         public DbSet<Orden> Ordenes { get; set; }
         public DbSet<OrdenDetalle> OrdenDetalle { get; set; }
+        public DbSet <Usuario> Usuarios { get; set; }   
     }
 }
